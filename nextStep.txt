@@ -1,0 +1,394 @@
+================================================================================
+                    NEXT STEPS - EXPERIMENT EXECUTION GUIDE
+================================================================================
+
+                          CREATED: February 2026
+                          STATUS: CUDA Update Required Before Training
+
+================================================================================
+CRITICAL: GPU COMPATIBILITY ISSUE DETECTED
+================================================================================
+
+Your NVIDIA GeForce RTX 5050 Laptop GPU uses sm_120 architecture, but the
+current PyTorch installation only supports up to sm_90.
+
+FIX REQUIRED BEFORE TRAINING:
+-----------------------------
+
+# 1. Activate virtual environment
+cd E:\arjjun\CXR8
+.venv312\Scripts\activate
+
+# 2. Uninstall current PyTorch
+pip uninstall torch torchvision torchaudio -y
+
+# 3. Install PyTorch with latest CUDA support
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+
+Note: If cu128 is not available, try:
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+
+Or install nightly build which may have newer architecture support:
+pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
+
+# 4. Verify installation
+python -c "import torch; t=torch.zeros(1).cuda(); print('CUDA OK:', t+1)"
+
+================================================================================
+CURRENT PROGRESS
+================================================================================
+
+[x] Project restructured
+[x] Old model folders deleted (model1, model2, model3, model4)
+[x] New standardized folders created:
+    - Preprocessing/
+    - Model_ViT_Pretrained/
+    - Model_Swin/
+    - Model_ResNet50/
+    - Model_DenseNet121/
+[x] Preprocessing module created (data_analysis.py)
+[x] All model training scripts created
+[x] understand.txt updated with full documentation
+[ ] Run preprocessing analysis
+[ ] Train ViT model
+[ ] Train remaining models
+
+================================================================================
+IMMEDIATE NEXT STEP: RUN PREPROCESSING
+================================================================================
+
+BEFORE training any model, run the preprocessing analysis:
+
+COMMAND:
+--------
+cd E:\arjjun\CXR8
+.venv312\Scripts\activate
+python Preprocessing/data_analysis.py
+
+EXPECTED OUTPUT:
+----------------
+- Console output showing class distribution
+- Preprocessing/class_distribution.png (bar chart)
+- Preprocessing/imbalance_report.txt (detailed statistics)
+
+CHECK:
+------
+1. Verify all 15 classes have images
+2. Note the imbalance ratio
+3. Review class weights that will be used
+
+================================================================================
+STEP 1: TRAIN MODEL_VIT_PRETRAINED
+================================================================================
+
+This is the first model to train. Follow these steps exactly.
+
+COMMAND SEQUENCE:
+-----------------
+
+# 1. Navigate to project root and activate environment
+cd E:\arjjun\CXR8
+.venv312\Scripts\activate
+
+# 2. Run the training script
+cd Model_ViT_Pretrained
+python train.py
+
+DURING TRAINING:
+----------------
+You will see output like:
+
+  ======================================================================
+   VISION TRANSFORMER (ViT-B/16) TRAINING
+   Multi-label Thoracic Disease Classification
+  ======================================================================
+
+  Random seed: 42
+
+  ======================================================================
+   GPU CONFIGURATION
+  ======================================================================
+
+    PyTorch version:  2.x.x
+    CUDA available:   True
+    GPU Device:       NVIDIA GeForce RTX XXXX
+    GPU Memory:       XX.XX GB
+    Device:           cuda
+  ======================================================================
+
+  ... (dataset loading) ...
+
+  ======================================================================
+   STARTING TRAINING
+  ======================================================================
+
+    Epoch 01/30 [TRAIN]: 100%|████████| Loss: X.XXXX | Acc: XX.XX% | LR: X.XXe-XX
+    Epoch 01/30 [VALID]: 100%|████████| Loss: X.XXXX | Acc: XX.XX%
+
+    ============================================================
+    Epoch 01/30 Summary:
+      Train Loss: X.XXXX  |  Train Acc: XX.XX%
+      Val Loss:   X.XXXX  |  Val Acc:   XX.XX%
+      [NEW BEST] Saved model with accuracy: XX.XX%
+    ============================================================
+
+TRAINING DURATION:
+------------------
+- Expected time: 2-4 hours (depending on GPU)
+- 30 epochs total
+- Progress shown in real-time
+
+EXPECTED OUTPUTS:
+-----------------
+After training completes, these files will be in Model_ViT_Pretrained/:
+
+  model.h5              - Best model weights (PyTorch state dict)
+  metrics.txt           - Full performance report
+  metrics.json          - Metrics in JSON format
+  training_curves.png   - Loss and accuracy plots
+  confusion_matrix.png  - Per-class predictions
+  description.txt       - Model architecture details
+
+================================================================================
+STEP 2: RECORD RESULTS
+================================================================================
+
+After ViT training completes, update this section with results:
+
+VIT RESULTS (FILL IN AFTER TRAINING):
+-------------------------------------
+Training completed: [DATE/TIME]
+Best Validation Accuracy: [XX.XX]%
+Final Metrics:
+  - Accuracy:    [X.XXXX]
+  - Precision:   [X.XXXX]
+  - Recall:      [X.XXXX]
+  - Specificity: [X.XXXX]
+  - F1-Score:    [X.XXXX]
+  - ROC-AUC:     [X.XXXX]
+
+Notes/Observations:
+_________________________________________________________________
+_________________________________________________________________
+_________________________________________________________________
+
+================================================================================
+STEP 3: TRAIN MODEL_SWIN
+================================================================================
+
+After ViT training is complete, train the Swin Transformer.
+
+COMMAND SEQUENCE:
+-----------------
+
+# Navigate to Swin folder (from project root)
+cd E:\arjjun\CXR8\Model_Swin
+python train.py
+
+TRAINING PARAMETERS:
+--------------------
+- Model: Swin Transformer Tiny (Swin-T)
+- Epochs: 30
+- Batch size: 16
+- Learning rate: 3e-5
+- Parameters: ~28M
+
+SWIN RESULTS (FILL IN AFTER TRAINING):
+--------------------------------------
+Training completed: [DATE/TIME]
+Best Validation Accuracy: [XX.XX]%
+Final Metrics:
+  - Accuracy:    [X.XXXX]
+  - Precision:   [X.XXXX]
+  - Recall:      [X.XXXX]
+  - Specificity: [X.XXXX]
+  - F1-Score:    [X.XXXX]
+  - ROC-AUC:     [X.XXXX]
+
+Notes/Observations:
+_________________________________________________________________
+_________________________________________________________________
+_________________________________________________________________
+
+================================================================================
+STEP 4: TRAIN MODEL_RESNET50
+================================================================================
+
+After Swin training is complete, train ResNet50.
+
+COMMAND SEQUENCE:
+-----------------
+
+# Navigate to ResNet50 folder
+cd E:\arjjun\CXR8\Model_ResNet50
+python train.py
+
+TRAINING PARAMETERS:
+--------------------
+- Model: ResNet50 with ImageNet V2 weights
+- Epochs: 30
+- Batch size: 32 (larger, more efficient)
+- Learning rate: 1e-4
+- Parameters: ~25.6M
+
+RESNET50 RESULTS (FILL IN AFTER TRAINING):
+------------------------------------------
+Training completed: [DATE/TIME]
+Best Validation Accuracy: [XX.XX]%
+Final Metrics:
+  - Accuracy:    [X.XXXX]
+  - Precision:   [X.XXXX]
+  - Recall:      [X.XXXX]
+  - Specificity: [X.XXXX]
+  - F1-Score:    [X.XXXX]
+  - ROC-AUC:     [X.XXXX]
+
+Notes/Observations:
+_________________________________________________________________
+_________________________________________________________________
+_________________________________________________________________
+
+================================================================================
+STEP 5: TRAIN MODEL_DENSENET121
+================================================================================
+
+After ResNet50 training is complete, train DenseNet121.
+
+COMMAND SEQUENCE:
+-----------------
+
+# Navigate to DenseNet121 folder
+cd E:\arjjun\CXR8\Model_DenseNet121
+python train.py
+
+TRAINING PARAMETERS:
+--------------------
+- Model: DenseNet121 (CheXNet architecture)
+- Epochs: 30
+- Batch size: 32
+- Learning rate: 1e-4
+- Parameters: ~8M (most efficient)
+
+DENSENET121 RESULTS (FILL IN AFTER TRAINING):
+---------------------------------------------
+Training completed: [DATE/TIME]
+Best Validation Accuracy: [XX.XX]%
+Final Metrics:
+  - Accuracy:    [X.XXXX]
+  - Precision:   [X.XXXX]
+  - Recall:      [X.XXXX]
+  - Specificity: [X.XXXX]
+  - F1-Score:    [X.XXXX]
+  - ROC-AUC:     [X.XXXX]
+
+Notes/Observations:
+_________________________________________________________________
+_________________________________________________________________
+_________________________________________________________________
+
+================================================================================
+STEP 6: COMPARE RESULTS
+================================================================================
+
+After all training is complete, fill in this comparison table:
+
+MODEL COMPARISON TABLE:
+-----------------------
+| Model         | Accuracy | Precision | Recall | Specificity | F1    | AUC   |
+|---------------|----------|-----------|--------|-------------|-------|-------|
+| ViT-B/16      |          |           |        |             |       |       |
+| Swin-T        |          |           |        |             |       |       |
+| ResNet50      |          |           |        |             |       |       |
+| DenseNet121   |          |           |        |             |       |       |
+
+BEST PERFORMING MODEL:
+_________________________________________________________________
+
+INSIGHTS:
+_________________________________________________________________
+_________________________________________________________________
+_________________________________________________________________
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+ISSUE: CUDA out of memory
+SOLUTION:
+- Reduce batch size in train.py (Config.BATCH_SIZE)
+- For ViT/Swin: try 8 instead of 16
+- For ResNet/DenseNet: try 16 instead of 32
+
+ISSUE: Training is slow
+SOLUTION:
+- Check GPU utilization (nvidia-smi)
+- Ensure NUM_WORKERS is appropriate (try 0, 2, or 4)
+- Close other GPU applications
+
+ISSUE: Very low accuracy
+SOLUTION:
+- Verify train/ folder has images in each class
+- Run Preprocessing/data_analysis.py to check data
+- Check if pretrained weights downloaded correctly
+
+ISSUE: Script exits immediately
+SOLUTION:
+- Ensure CUDA is available (torch.cuda.is_available())
+- Check virtual environment is activated
+
+================================================================================
+QUICK COMMAND REFERENCE
+================================================================================
+
+# Activate environment
+cd E:\arjjun\CXR8
+.venv312\Scripts\activate
+
+# Run preprocessing
+python Preprocessing/data_analysis.py
+
+# Train models (run one at a time)
+python Model_ViT_Pretrained/train.py
+python Model_Swin/train.py
+python Model_ResNet50/train.py
+python Model_DenseNet121/train.py
+
+# Check GPU status
+nvidia-smi
+
+# View training curves (after training)
+start Model_ViT_Pretrained/training_curves.png
+
+# View metrics
+type Model_ViT_Pretrained/metrics.txt
+
+================================================================================
+NOTES FOR FUTURE EXPERIMENTS
+================================================================================
+
+IDEAS TO TRY:
+-------------
+[ ] Different learning rates
+[ ] Longer training (50 epochs)
+[ ] Different batch sizes
+[ ] Focal loss instead of CrossEntropy
+[ ] Multi-label classification (handle co-occurring diseases)
+[ ] External test set evaluation
+[ ] Model ensembling
+
+THINGS TO DOCUMENT:
+-------------------
+- Any bugs encountered
+- Performance differences between models
+- Which classes are hardest to classify
+- GPU memory usage
+- Training time per model
+
+================================================================================
+                              END OF NEXT STEPS
+================================================================================
+
+Use this file as a prompt for continuing experiments.
+After each step, update the results section above.
+
+================================================================================

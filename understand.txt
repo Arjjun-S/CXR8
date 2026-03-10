@@ -1,0 +1,406 @@
+================================================================================
+                    CXR8 RESEARCH PIPELINE - DOCUMENTATION
+================================================================================
+
+                          LAST UPDATED: February 2026
+                          
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+1. Project Overview
+2. Dataset Information
+3. Folder Structure
+4. Preprocessing Workflow
+5. Model Training Workflow
+6. Running the Experiments
+7. Metrics and Evaluation
+8. Class Imbalance Notes
+9. Reproducibility Guide
+10. Research Paper Experiment Plan
+
+================================================================================
+1. PROJECT OVERVIEW
+================================================================================
+
+This is a structured research pipeline for multi-label thoracic disease 
+classification using the CXR8 (NIH Chest X-ray) dataset.
+
+OBJECTIVE:
+Train and compare multiple deep learning architectures on chest X-ray 
+classification, with proper handling of class imbalance and reproducible 
+experiment tracking.
+
+MODELS IMPLEMENTED:
+  1. Vision Transformer (ViT-B/16)  - Transformer-based, attention mechanism
+  2. Swin Transformer (Swin-T)      - Hierarchical, shifted windows
+  3. ResNet50                       - CNN baseline, residual connections
+  4. DenseNet121                    - CNN, dense connections (CheXNet baseline)
+
+KEY FEATURES:
+  - Patient-wise train/val split (prevents data leakage)
+  - Class-weighted loss for imbalance handling
+  - Medical-appropriate augmentations
+  - GPU-only training (30 epochs max)
+  - Standardized metrics across all models
+  - Automatic saving of results and visualizations
+
+================================================================================
+2. DATASET INFORMATION
+================================================================================
+
+DATASET: NIH Chest X-ray (CXR8)
+SOURCE: https://nihcc.app.box.com/v/ChestXray-NIHCC
+
+FULL DATASET:
+  - Total images: 112,120 frontal-view chest X-rays
+  - Total patients: 30,805 unique patients
+  - Image format: PNG, 1024x1024 pixels
+  - Labels: 15 classes (14 diseases + No Finding)
+
+CURRENT WORKING SET:
+  - Images per class: Up to 5,000 (capped max)
+  - Location: E:\arjjun\CXR8\train\
+  - Organization: One subfolder per class
+
+CLASSIFICATION CLASSES (15 total):
+--------------------------------------------------------------------------------
+  Class Name           | Description                  | Typical Count
+--------------------------------------------------------------------------------
+  1. Atelectasis       | Partial/complete lung collapse
+  2. Cardiomegaly      | Enlarged heart
+  3. Consolidation     | Lung filled with fluid/debris
+  4. Edema             | Fluid accumulation in lungs
+  5. Effusion          | Fluid around lungs
+  6. Emphysema         | Damaged air sacs
+  7. Fibrosis          | Lung scarring
+  8. Hernia            | Hiatal hernia
+  9. Infiltration      | Abnormal substance in lung
+  10. Mass             | Large opacity (>3cm)
+  11. No_Finding       | Normal/healthy
+  12. Nodule           | Small opacity (<3cm)
+  13. Pleural_Thickening| Thickened pleural membrane
+  14. Pneumonia        | Lung infection
+  15. Pneumothorax     | Air between lung and chest wall
+--------------------------------------------------------------------------------
+
+METADATA FILES:
+  - Data_Entry_2017_v2020.csv  : Main metadata (112,120 entries)
+  - BBox_List_2017.csv         : Bounding box annotations
+  - train_val_list.txt         : Train/validation split list
+  - test_list.txt              : Test set image list
+
+================================================================================
+3. FOLDER STRUCTURE
+================================================================================
+
+E:\arjjun\CXR8\
+│
+├── understand.txt              # THIS FILE - Project documentation
+├── nextStep.txt                # Next steps for continuing experiments
+│
+├── Preprocessing/              # Data analysis and preprocessing
+│   ├── data_analysis.py        # Analyze dataset distribution
+│   ├── class_distribution.png  # [OUTPUT] Class distribution bar chart
+│   └── imbalance_report.txt    # [OUTPUT] Detailed imbalance analysis
+│
+├── Model_ViT_Pretrained/       # Vision Transformer experiment
+│   ├── train.py                # Training script
+│   ├── model.h5                # [OUTPUT] Best model weights
+│   ├── metrics.txt             # [OUTPUT] Performance metrics
+│   ├── metrics.json            # [OUTPUT] Metrics in JSON format
+│   ├── training_curves.png     # [OUTPUT] Loss and accuracy plots
+│   ├── confusion_matrix.png    # [OUTPUT] Confusion matrix
+│   └── description.txt         # [OUTPUT] Model architecture details
+│
+├── Model_Swin/                 # Swin Transformer experiment
+│   ├── train.py
+│   └── (same outputs as above)
+│
+├── Model_ResNet50/             # ResNet50 experiment
+│   ├── train.py
+│   └── (same outputs as above)
+│
+├── Model_DenseNet121/          # DenseNet121 experiment (CheXNet-style)
+│   ├── train.py
+│   └── (same outputs as above)
+│
+├── train/                      # Prepared training data
+│   ├── Atelectasis/
+│   ├── Cardiomegaly/
+│   ├── Consolidation/
+│   └── ... (15 class folders)
+│
+├── images/                     # Original images (12 batches)
+│   ├── images_001/images/
+│   ├── images_002/images/
+│   └── ... (images_012)
+│
+├── LongTailCXR/                # Long-tail distribution alternative labels
+├── PruneCXR/                   # Cleaned/pruned labels
+├── MAPLEZ.../                  # LLM-extracted improved labels
+│
+├── Data_Entry_2017_v2020.csv   # Original metadata
+├── BBox_List_2017.csv          # Bounding box annotations
+├── prepare_data.py             # Data preparation script
+├── train_val_list.txt          # Official train/val split
+└── test_list.txt               # Official test split
+
+================================================================================
+4. PREPROCESSING WORKFLOW
+================================================================================
+
+STEP 1: Prepare Data (if not already done)
+------------------------------------------
+Run: python prepare_data.py
+
+This script:
+  - Reads Data_Entry_2017_v2020.csv
+  - Copies images to train/ folder organized by class
+  - Limits each class to 5,000 images max
+  - Prioritizes single-label images, then multi-label
+
+STEP 2: Analyze Data Distribution
+---------------------------------
+Run: python Preprocessing/data_analysis.py
+
+This script generates:
+  - class_distribution.png  : Visual bar chart of class counts
+  - imbalance_report.txt    : Detailed statistics including:
+    * Count per class
+    * Percentage distribution
+    * Imbalance ratio
+    * Class weights
+    * Recommendations
+
+ALWAYS RUN PREPROCESSING BEFORE TRAINING TO UNDERSTAND YOUR DATA!
+
+================================================================================
+5. MODEL TRAINING WORKFLOW
+================================================================================
+
+TRAINING ORDER (RECOMMENDED):
+  1. Model_ViT_Pretrained  (Vision Transformer)
+  2. Model_Swin            (Swin Transformer)
+  3. Model_ResNet50        (ResNet baseline)
+  4. Model_DenseNet121     (DenseNet/CheXNet baseline)
+
+COMMON TRAINING FEATURES:
+-------------------------
+All models share:
+  - GPU-only training (will error if no CUDA)
+  - 30 epochs maximum
+  - Fixed random seed (42) for reproducibility
+  - Patient-wise train/val split (80/20)
+  - Class-weighted CrossEntropy loss
+  - Label smoothing (0.1)
+  - Warmup + Cosine Annealing scheduler
+  - Medical-safe augmentations (no color jitter)
+  - Gradient clipping (1.0)
+
+OUTPUT FILES (per model):
+-------------------------
+  model.h5              : Best model weights (highest val accuracy)
+  metrics.txt           : Human-readable performance report
+  metrics.json          : Machine-readable metrics
+  training_curves.png   : Loss and accuracy over epochs
+  confusion_matrix.png  : Per-class prediction analysis
+  description.txt       : Architecture and hyperparameter details
+
+================================================================================
+6. RUNNING THE EXPERIMENTS
+================================================================================
+
+PREREQUISITES:
+--------------
+  Python 3.10+
+  PyTorch 2.0+ with CUDA
+  torchvision
+  numpy, matplotlib, scikit-learn, tqdm
+
+STEP-BY-STEP EXECUTION:
+-----------------------
+
+1. Activate virtual environment:
+   .venv312\Scripts\activate
+
+2. Run preprocessing analysis:
+   python Preprocessing/data_analysis.py
+
+3. Train ViT model:
+   cd Model_ViT_Pretrained
+   python train.py
+
+4. After completion, update nextStep.txt with results
+
+5. Train next model (Swin):
+   cd ..\Model_Swin
+   python train.py
+
+6. Repeat for remaining models
+
+MONITORING TRAINING:
+--------------------
+Training displays:
+  - Epoch X/30 [TRAIN]: Progress bar with Loss, Acc, LR
+  - Epoch X/30 [VALID]: Progress bar with Loss, Acc
+  - Epoch summary with train/val metrics
+  - [NEW BEST] when validation accuracy improves
+
+================================================================================
+7. METRICS AND EVALUATION
+================================================================================
+
+REPORTED METRICS:
+-----------------
+
+1. ACCURACY
+   Definition: (TP + TN) / (TP + TN + FP + FN)
+   Use: Overall correctness, but can be misleading with imbalance
+
+2. PRECISION (Macro-averaged)
+   Definition: TP / (TP + FP) averaged across all classes
+   Use: How many predicted positives are actually positive
+   
+3. RECALL / SENSITIVITY (Macro-averaged)
+   Definition: TP / (TP + FN) averaged across all classes
+   Use: How many actual positives are correctly identified
+   Critical for medical diagnosis (catching all disease cases)
+
+4. SPECIFICITY (Macro-averaged)
+   Definition: TN / (TN + FP) averaged across all classes
+   Use: How many actual negatives are correctly identified
+
+5. F1-SCORE (Macro-averaged)
+   Definition: 2 * (Precision * Recall) / (Precision + Recall)
+   Use: Harmonic mean of precision and recall
+
+6. ROC-AUC (Macro-averaged, OvR)
+   Definition: Area under ROC curve, averaged across classes
+   Use: Classification performance across all thresholds
+   Range: 0.5 (random) to 1.0 (perfect)
+
+WHY MACRO-AVERAGING?
+--------------------
+Macro-averaging treats all classes equally regardless of sample count.
+This is important for medical imaging where minority classes (rare diseases)
+are clinically just as important as majority classes.
+
+================================================================================
+8. CLASS IMBALANCE NOTES
+================================================================================
+
+THE PROBLEM:
+------------
+CXR8 dataset has severe class imbalance:
+  - No_Finding: Very high count (majority class)
+  - Hernia: Very low count (minority class)
+
+Imbalance ratio can exceed 50x between majority and minority classes!
+
+HOW WE HANDLE IT:
+-----------------
+
+1. CLASS-WEIGHTED LOSS
+   Formula: weight[c] = total_samples / (num_classes * samples_in_class[c])
+   Effect: Increases loss contribution from minority classes
+
+2. LABEL SMOOTHING (0.1)
+   Effect: Prevents overconfident predictions, helps minority classes
+
+3. CAPPED SAMPLING
+   Each class limited to 5,000 images maximum to reduce imbalance
+
+4. MACRO-AVERAGED METRICS
+   Reports performance equally weighted across all classes
+
+5. PATIENT-WISE SPLIT
+   Prevents data leakage where same patient appears in train and val
+
+RECOMMENDATIONS FOR SEVERE IMBALANCE:
+-------------------------------------
+If imbalance ratio > 10x:
+  - Consider focal loss instead of CrossEntropy
+  - Use oversampling of minority classes
+  - Report per-class metrics in addition to macro-averaged
+  - Consider binary classification per disease (one-vs-all)
+
+================================================================================
+9. REPRODUCIBILITY GUIDE
+================================================================================
+
+FIXED RANDOM SEED: 42
+Used in:
+  - NumPy: np.random.seed(42)
+  - PyTorch: torch.manual_seed(42)
+  - CUDA: torch.cuda.manual_seed_all(42)
+  - CuDNN: torch.backends.cudnn.deterministic = True
+
+LOGGED INFORMATION:
+-------------------
+Each model run saves:
+  - Exact hyperparameters in metrics.txt
+  - Model architecture in description.txt
+  - Training timestamp
+  - GPU device used
+  - Dataset size and split
+
+TO REPRODUCE RESULTS:
+---------------------
+1. Use same prepare_data.py settings (IMAGES_PER_CLASS = 5000)
+2. Ensure same train/ folder contents
+3. Use provided train.py without modification
+4. Run on GPU with same CUDA version
+
+================================================================================
+10. RESEARCH PAPER EXPERIMENT PLAN
+================================================================================
+
+EXPERIMENT DESIGN:
+------------------
+
+Phase 1: Baseline Establishment
+  [x] Setup reproducible pipeline
+  [x] Implement 4 architecture variants
+  [x] Establish preprocessing and evaluation protocols
+
+Phase 2: Model Training (CURRENT)
+  [ ] Train ViT-B/16 (30 epochs)
+  [ ] Train Swin-T (30 epochs)
+  [ ] Train ResNet50 (30 epochs)
+  [ ] Train DenseNet121 (30 epochs)
+
+Phase 3: Results Analysis
+  [ ] Compare metrics across models
+  [ ] Analyze per-class performance
+  [ ] Identify challenging classes
+  [ ] Generate paper figures
+
+Phase 4: Ablation Studies (Optional)
+  [ ] Effect of pretrained vs scratch
+  [ ] Effect of class weighting
+  [ ] Impact of data augmentation
+  [ ] Learning rate sensitivity
+
+EXPECTED OUTCOMES:
+------------------
+  - Model comparison table for paper
+  - Training curves showing convergence
+  - Confusion matrices showing class-wise performance
+  - Discussion of transformer vs CNN for medical imaging
+
+PAPER SECTIONS COVERAGE:
+------------------------
+  - Dataset: CXR8 description, class distribution
+  - Methodology: Preprocessing, augmentation, training
+  - Results: Metrics tables, training curves
+  - Discussion: Model comparison, limitations
+  - Reproducibility: Seeds, hyperparameters, code
+
+================================================================================
+                              END OF DOCUMENTATION
+================================================================================
+
+For questions or issues, review the individual model train.py files
+or the Preprocessing/data_analysis.py script for implementation details.
+
+================================================================================

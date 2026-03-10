@@ -1,0 +1,166 @@
+======================================================================
+VISION TRANSFORMER (ViT) MODEL DESCRIPTION
+Model: model1.py - Chest X-Ray Classification
+======================================================================
+
+Date: 2026-02-05 23:37:45
+Dataset: NIH Chest X-Ray Dataset (CXR8)
+Task: Multi-class Classification (15 classes)
+
+----------------------------------------------------------------------
+HIGH-LEVEL ARCHITECTURE
+----------------------------------------------------------------------
+
+Image Input
+   ↓
+Resize + Normalize
+   ↓
+Patch Partition
+   ↓
+Patch Embedding
+   ↓
+Positional Encoding
+   ↓
+[Self-Attention
+ LayerNorm
+ MLP
+ LayerNorm] × 4
+   ↓
+Feature Pooling
+   ↓
+Fully Connected Layer
+   ↓
+Prediction
+
+----------------------------------------------------------------------
+MODEL ARCHITECTURE
+----------------------------------------------------------------------
+
+Type: Vision Transformer (ViT)
+Input Shape: (224, 224, 3)
+Output: 15 classes (softmax)
+
+LAYER CONFIGURATION:
+  - Patch Size: 16x16
+  - Number of Patches: 196
+  - Projection Dimension: 64
+  - Number of Attention Heads: 4
+  - Number of Transformer Layers: 4
+
+DETAILED LAYER STRUCTURE:
+----------------------------------------
+
+Layer 1: Input Layer
+  - Shape: (224, 224, 3)
+  - Description: Raw chest X-ray image input
+
+Layer 2: Data Augmentation
+  - Operations: RandomFlip, RandomRotation, RandomZoom, RandomContrast
+  - Description: Applied only during training for regularization
+
+Layer 3: Patch Extraction
+  - Output Shape: (batch, 196, 768)
+  - Description: Divides image into 196 non-overlapping patches
+
+Layer 4: Patch Encoding
+  - Linear Projection: Dense(64)
+  - Positional Embedding: Embedding(196, 64)
+  - Output Shape: (batch, 196, 64)
+  - Description: Projects patches to embedding space and adds positional info
+
+Layer 5: Transformer Encoder Block 1
+  - LayerNormalization (epsilon=1e-6)
+  - MultiHeadAttention (heads=4, key_dim=64)
+  - Skip Connection (Residual)
+  - LayerNormalization (epsilon=1e-6)
+  - MLP Block: Dense(128, GELU) -> Dense(64, GELU)
+  - Skip Connection (Residual)
+  - Dropout: 0.1
+  - Description: Self-attention mechanism for global context understanding
+
+Layer 6: Transformer Encoder Block 2
+  - LayerNormalization (epsilon=1e-6)
+  - MultiHeadAttention (heads=4, key_dim=64)
+  - Skip Connection (Residual)
+  - LayerNormalization (epsilon=1e-6)
+  - MLP Block: Dense(128, GELU) -> Dense(64, GELU)
+  - Skip Connection (Residual)
+  - Dropout: 0.1
+  - Description: Self-attention mechanism for global context understanding
+
+Layer 7: Transformer Encoder Block 3
+  - LayerNormalization (epsilon=1e-6)
+  - MultiHeadAttention (heads=4, key_dim=64)
+  - Skip Connection (Residual)
+  - LayerNormalization (epsilon=1e-6)
+  - MLP Block: Dense(128, GELU) -> Dense(64, GELU)
+  - Skip Connection (Residual)
+  - Dropout: 0.1
+  - Description: Self-attention mechanism for global context understanding
+
+Layer 8: Transformer Encoder Block 4
+  - LayerNormalization (epsilon=1e-6)
+  - MultiHeadAttention (heads=4, key_dim=64)
+  - Skip Connection (Residual)
+  - LayerNormalization (epsilon=1e-6)
+  - MLP Block: Dense(128, GELU) -> Dense(64, GELU)
+  - Skip Connection (Residual)
+  - Dropout: 0.1
+  - Description: Self-attention mechanism for global context understanding
+
+Layer 9: Final LayerNormalization
+  - epsilon=1e-6
+
+Layer 10: Global Average Pooling 1D
+  - Output Shape: (batch, 64)
+  - Description: Aggregates patch representations
+
+Layer 11: Classification Head
+  - Dropout: 0.3
+  - Dense(256, GELU) + Dropout(0.3)
+  - Dense(128, GELU) + Dropout(0.3)
+  - Dense(15, Softmax)
+  - Description: Final classification layers
+
+----------------------------------------------------------------------
+TRAINING CONFIGURATION
+----------------------------------------------------------------------
+  - Optimizer: Adam (lr=0.0001)
+  - Loss: Sparse Categorical Crossentropy
+  - Batch Size: 16
+  - Epochs: 20
+  - Early Stopping: patience=5
+  - LR Reduction: factor=0.5, patience=3
+
+----------------------------------------------------------------------
+TRAINING RESULTS
+----------------------------------------------------------------------
+  - Final Validation Accuracy: 9.50%
+  - Best Epoch: 12
+  - Training Epochs Run: 17
+
+----------------------------------------------------------------------
+CLASSES
+----------------------------------------------------------------------
+  0: Atelectasis
+  1: Cardiomegaly
+  2: Consolidation
+  3: Edema
+  4: Effusion
+  5: Emphysema
+  6: Fibrosis
+  7: Hernia
+  8: Infiltration
+  9: Mass
+  10: No_Finding
+  11: Nodule
+  12: Pleural_Thickening
+  13: Pneumonia
+  14: Pneumothorax
+
+----------------------------------------------------------------------
+TOTAL PARAMETERS
+----------------------------------------------------------------------
+  - Total params: 446,159
+  - Trainable params: 446,159
+  - Non-trainable params: 0

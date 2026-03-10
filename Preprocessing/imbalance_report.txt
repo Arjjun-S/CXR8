@@ -1,0 +1,62 @@
+======================================================================
+CXR8 DATASET - CLASS IMBALANCE ANALYSIS REPORT
+======================================================================
+
+Generated: 2026-02-18 21:41:44
+Dataset: CXR8 (NIH Chest X-ray)
+Train folder: E:\arjjun\CXR8\train
+
+----------------------------------------------------------------------
+CLASS DISTRIBUTION
+----------------------------------------------------------------------
+
+Class                          Count   Percentage     Weight
+---------------------------------------------------------
+Atelectasis                    5,000        9.26%     0.7199
+Effusion                       5,000        9.26%     0.7199
+Infiltration                   5,000        9.26%     0.7199
+Mass                           5,000        9.26%     0.7199
+No_Finding                     5,000        9.26%     0.7199
+Nodule                         5,000        9.26%     0.7199
+Pneumothorax                   5,000        9.26%     0.7199
+Consolidation                  4,667        8.64%     0.7712
+Pleural_Thickening             3,385        6.27%     1.0633
+Cardiomegaly                   2,776        5.14%     1.2966
+Emphysema                      2,516        4.66%     1.4306
+Edema                          2,303        4.27%     1.5629
+Fibrosis                       1,686        3.12%     2.1349
+Pneumonia                      1,431        2.65%     2.5153
+Hernia                           227        0.42%    15.8564
+---------------------------------------------------------
+TOTAL                         53,991      100.00%
+
+----------------------------------------------------------------------
+IMBALANCE METRICS
+----------------------------------------------------------------------
+
+Metric                                             Value
+-------------------------------------------------------
+Maximum class count                                5,000
+Minimum class count                                  227
+Mean class count                                3,599.40
+Standard deviation                              1,595.54
+Imbalance ratio (max/min)                          22.03x
+Coefficient of variation                          0.4433
+
+Majority class: Atelectasis (5,000 images)
+Minority class: Hernia (227 images)
+
+----------------------------------------------------------------------
+RECOMMENDATIONS
+----------------------------------------------------------------------
+
+HIGH IMBALANCE DETECTED!
+Recommendations:
+  1. Use class weights during training (computed above)
+  2. Consider oversampling minority classes
+  3. Use focal loss or other imbalance-aware losses
+  4. Report per-class metrics, not just accuracy
+
+======================================================================
+END OF REPORT
+======================================================================

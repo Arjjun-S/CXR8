@@ -1,0 +1,76 @@
+======================================================================
+MODEL PERFORMANCE METRICS
+======================================================================
+
+Model: DenseNet2-Optimized
+Timestamp: 2026-02-22 01:19:32
+Device: GPU (NVIDIA GeForce RTX 5050 Laptop GPU)
+
+----------------------------------------------------------------------
+HYPERPARAMETERS
+----------------------------------------------------------------------
+  Epochs:          10
+  Batch size:      32
+  Learning rate:   0.0003
+  Focal gamma:     2.0
+  Default threshold: 0.3
+  Image size:      224x224
+  Random seed:     42
+
+----------------------------------------------------------------------
+FINAL METRICS (Best Model)
+----------------------------------------------------------------------
+  Accuracy                 : 0.3105
+  Precision                : 0.2894
+  Recall (Sensitivity)     : 0.2544
+  Specificity              : 0.9497
+  F1-Score                 : 0.2477
+  ROC-AUC                  : 0.7799
+
+  Best Validation Accuracy: 31.05%
+
+----------------------------------------------------------------------
+OPTIMAL THRESHOLDS PER CLASS
+----------------------------------------------------------------------
+  Atelectasis              : 0.25
+  Cardiomegaly             : 0.20
+  Consolidation            : 0.15
+  Edema                    : 0.20
+  Effusion                 : 0.20
+  Emphysema                : 0.10
+  Fibrosis                 : 0.10
+  Hernia                   : 0.30
+  Infiltration             : 0.20
+  Mass                     : 0.20
+  No_Finding               : 0.30
+  Nodule                   : 0.15
+  Pleural_Thickening       : 0.10
+  Pneumonia                : 0.10
+  Pneumothorax             : 0.15
+
+----------------------------------------------------------------------
+CLASSIFICATION REPORT
+----------------------------------------------------------------------
+                    precision    recall  f1-score   support
+
+       Atelectasis       0.27      0.47      0.34       910
+      Cardiomegaly       0.45      0.41      0.43       600
+     Consolidation       0.21      0.20      0.20       864
+             Edema       0.34      0.25      0.29       435
+          Effusion       0.32      0.44      0.37      1007
+         Emphysema       0.42      0.16      0.23       471
+          Fibrosis       0.42      0.05      0.08       368
+            Hernia       0.00      0.00      0.00        31
+      Infiltration       0.24      0.26      0.25       987
+              Mass       0.38      0.34      0.36      1055
+        No_Finding       0.27      0.54      0.36      1050
+            Nodule       0.41      0.19      0.26      1115
+Pleural_Thickening       0.22      0.11      0.15       741
+         Pneumonia       0.00      0.00      0.00       285
+      Pneumothorax       0.38      0.41      0.39      1217
+
+          accuracy                           0.31     11136
+         macro avg       0.29      0.25      0.25     11136
+      weighted avg       0.32      0.31      0.29     11136
+
+======================================================================
