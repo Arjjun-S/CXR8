@@ -1,0 +1,97 @@
+======================================================================
+MODEL PERFORMANCE METRICS
+======================================================================
+
+Model: DeiT Base (deit_base_patch16_224) with Custom Head
+Timestamp: 2026-03-03
+Device: GPU (NVIDIA GeForce RTX 5050 Laptop GPU)
+
+----------------------------------------------------------------------
+HYPERPARAMETERS
+----------------------------------------------------------------------
+  Epochs:          30 (stopped at ~5)
+  Batch size:      16
+  Learning rate:   3e-04
+  Weight decay:    0.01
+  Optimizer:       AdamW
+  Scheduler:       CosineAnnealingLR
+  Image size:      224x224
+  Threshold:       0.5
+  Loss:            BCEWithLogitsLoss
+
+----------------------------------------------------------------------
+ARCHITECTURE
+----------------------------------------------------------------------
+  Backbone:        DeiT Base (ViT) - deit_base_patch16_224
+  Head:            Linear(768->512) -> BN -> ReLU -> Dropout(0.4) -> Linear(512->15)
+  Parameters:      86,201,103
+
+----------------------------------------------------------------------
+DATASET (FULL NIH CXR8)
+----------------------------------------------------------------------
+  Total images:    112,120
+  Train images:    ~89,696
+  Val images:      ~22,424
+
+----------------------------------------------------------------------
+FINAL METRICS (Best Model - Epoch 6)
+----------------------------------------------------------------------
+  Accuracy                 : 0.8866
+  Precision                : 0.3680
+  Recall (Sensitivity)     : 0.4849
+  Specificity              : 0.9235
+  F1-Score                 : 0.4184
+  ROC-AUC                  : 0.6897
+
+  Best Validation AUC      : 0.6897
+
+----------------------------------------------------------------------
+PER-CLASS ROC-AUC SCORES
+----------------------------------------------------------------------
+  Edema               : 0.8274
+  Effusion            : 0.7827
+  Consolidation       : 0.7230
+  Atelectasis         : 0.7094
+  Hernia              : 0.7013
+  No Finding          : 0.6947
+  Pneumothorax        : 0.6849
+  Cardiomegaly        : 0.6807
+  Pleural_Thickening  : 0.6763
+  Emphysema           : 0.6716
+  Infiltration        : 0.6629
+  Fibrosis            : 0.6550
+  Mass                : 0.6499
+  Pneumonia           : 0.6462
+  Nodule              : 0.5795
+
+----------------------------------------------------------------------
+CLASS DISTRIBUTION (FULL DATASET)
+----------------------------------------------------------------------
+  No Finding               : 60,361 (53.84%)
+  Infiltration             : 19,894 (17.74%)
+  Effusion                 : 13,317 (11.88%)
+  Atelectasis              : 11,559 (10.31%)
+  Nodule                   :  6,331 ( 5.65%)
+  Mass                     :  5,782 ( 5.16%)
+  Pneumothorax             :  5,302 ( 4.73%)
+  Consolidation            :  4,667 ( 4.16%)
+  Pleural_Thickening       :  3,385 ( 3.02%)
+  Cardiomegaly             :  2,776 ( 2.48%)
+  Emphysema                :  2,516 ( 2.24%)
+  Edema                    :  2,303 ( 2.05%)
+  Fibrosis                 :  1,686 ( 1.50%)
+  Pneumonia                :  1,431 ( 1.28%)
+  Hernia                   :    227 ( 0.20%)
+
+----------------------------------------------------------------------
+SAVED FILES
+----------------------------------------------------------------------
+  model.h5                 : HDF5 format weights
+  model.pth                : PyTorch weights only
+  best_model.pth           : Best model checkpoint
+  final_model.pth          : Final epoch model
+  metrics.txt              : This file
+  metrics.json             : JSON format metrics
+  graph_*.png              : All visualizations
+
+======================================================================

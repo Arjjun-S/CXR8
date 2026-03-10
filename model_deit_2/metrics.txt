@@ -1,0 +1,118 @@
+======================================================================
+MODEL PERFORMANCE METRICS - DeiT v2 (IMPROVED)
+======================================================================
+
+Model: DeiT Base (deit_base_patch16_224) with Enhanced Head
+Timestamp: 2026-03-08 14:09
+Device: GPU (NVIDIA)
+
+----------------------------------------------------------------------
+IMPROVEMENTS APPLIED
+----------------------------------------------------------------------
+  1. Class Weights in Loss Function (pos_weight)
+  2. Optimal Threshold Tuning (F1-based): 0.45
+  3. 30 Epochs Training (Phase-based)
+  4. Enhanced Data Augmentation (CLAHE, rotation, flip)
+  5. Gradual Backbone Unfreezing (3 phases)
+  6. Focal Loss for rare disease detection
+  7. Balanced Batch Sampling
+
+----------------------------------------------------------------------
+TRAINING PHASES
+----------------------------------------------------------------------
+  Phase 1 (Epochs 1-5):     Backbone frozen, train classifier
+  Phase 2 (Epochs 6-15):    Last 4 blocks unfrozen
+  Phase 3 (Epochs 16-30):   Entire network unfrozen
+
+----------------------------------------------------------------------
+HYPERPARAMETERS
+----------------------------------------------------------------------
+  Epochs:          30
+  Batch size:      16
+  Learning rate:   0.0003
+  Weight decay:    0.01
+  Optimizer:       AdamW
+  Scheduler:       CosineAnnealingWarmRestarts
+  Image size:      224x224
+  Optimal Threshold: 0.45
+  Loss:            Focal Loss (gamma=2.0)
+
+----------------------------------------------------------------------
+ARCHITECTURE
+----------------------------------------------------------------------
+  Backbone:        DeiT Base (ViT) - deit_base_patch16_224
+  Head:            Linear(768->1024) -> BN -> GELU -> Dropout(0.3)
+                   -> Linear(1024->512) -> BN -> GELU -> Dropout(0.3)
+                   -> Linear(512->15)
+
+----------------------------------------------------------------------
+DATASET (FULL NIH CXR8)
+----------------------------------------------------------------------
+  Total images:    112,120
+  Train images:    ~89,696
+  Val images:      ~22,424
+
+----------------------------------------------------------------------
+CLASS WEIGHTS (pos_weight)
+----------------------------------------------------------------------
+  Atelectasis         : 8.63
+  Cardiomegaly        : 39.20
+  Consolidation       : 22.83
+  Edema               : 47.43
+  Effusion            : 7.39
+  Emphysema           : 43.58
+  Fibrosis            : 64.47
+  Hernia              : 476.11
+  Infiltration        : 4.64
+  Mass                : 18.28
+  Nodule              : 16.72
+  Pleural_Thickening  : 31.86
+  Pneumonia           : 78.80
+  Pneumothorax        : 19.98
+  No Finding          : 0.86
+
+----------------------------------------------------------------------
+FINAL METRICS (Best Model - Epoch 30)
+----------------------------------------------------------------------
+  Accuracy                 : 0.8641
+  Precision                : 0.6444
+  Recall (Sensitivity)     : 0.7425
+  Specificity              : 0.8886
+  F1-Score                 : 0.6734
+  ROC-AUC                  : 0.7204
+
+  Optimal Threshold        : 0.45
+  Best Validation AUC      : 0.7204
+
+----------------------------------------------------------------------
+PER-CLASS ROC-AUC SCORES
+----------------------------------------------------------------------
+  Atelectasis         : 0.7247
+  Cardiomegaly        : 0.7573
+  Consolidation       : 0.6781
+  Edema               : 0.7739
+  Effusion            : 0.8306
+  Emphysema           : 0.8168
+  Fibrosis            : 0.6396
+  Hernia              : 0.8045
+  Infiltration        : 0.6386
+  Mass                : 0.7455
+  Nodule              : 0.6454
+  Pleural_Thickening  : 0.6805
+  Pneumonia           : 0.5605
+  Pneumothorax        : 0.7707
+  No Finding          : 0.7391
+
+----------------------------------------------------------------------
+SAVED FILES
+----------------------------------------------------------------------
+  model.h5                 : HDF5 format weights
+  model.pth                : PyTorch weights only
+  best_model.pth           : Best model checkpoint
+  final_model.pth          : Final epoch model
+  metrics.txt              : This file
+  metrics.json             : JSON format metrics
+  final_metrics.json       : Final metrics JSON
+  graph_*.png              : All visualizations (12+ graphs)
+
+======================================================================
