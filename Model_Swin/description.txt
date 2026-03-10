@@ -1,0 +1,34 @@
+======================================================================
+MODEL DESCRIPTION
+======================================================================
+
+Architecture: Swin Transformer Tiny (Swin-T)
+
+Model Details:
+----------------------------------------
+  Base: Swin-T with ImageNet pretrained weights
+  Patch size: 4x4 pixels
+  Window size: 7x7
+  Embed dimension: 96
+  Depths: [2, 2, 6, 2]
+  Attention heads: [3, 6, 12, 24]
+  Parameters: ~28M
+
+Key Features:
+----------------------------------------
+  - Hierarchical feature representation
+  - Shifted window attention mechanism
+  - Linear computational complexity
+  - Better for dense prediction tasks
+
+Training Configuration:
+----------------------------------------
+  Epochs: 10
+  Batch size: 16
+  Optimizer: AdamW
+  Learning rate: 3e-05
+  Weight decay: 0.05
+  Scheduler: Warmup + Cosine Annealing
+  Label smoothing: 0.1
+
+======================================================================

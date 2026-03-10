@@ -1,0 +1,57 @@
+======================================================================
+MODEL PERFORMANCE METRICS
+======================================================================
+
+Model: Swin-T
+Timestamp: 2026-02-21 23:37:09
+Device: GPU (NVIDIA GeForce RTX 5050 Laptop GPU)
+
+----------------------------------------------------------------------
+HYPERPARAMETERS
+----------------------------------------------------------------------
+  Epochs:          10
+  Batch size:      16
+  Learning rate:   3e-05
+  Weight decay:    0.05
+  Label smoothing: 0.1
+  Image size:      224x224
+  Random seed:     42
+
+----------------------------------------------------------------------
+FINAL METRICS (Best Model)
+----------------------------------------------------------------------
+  Accuracy                 : 0.3146
+  Precision                : 0.2967
+  Recall (Sensitivity)     : 0.3366
+  Specificity              : 0.9509
+  F1-Score                 : 0.2891
+  ROC-AUC                  : 0.8036
+
+  Best Validation Accuracy: 31.46%
+
+----------------------------------------------------------------------
+CLASSIFICATION REPORT
+----------------------------------------------------------------------
+                    precision    recall  f1-score   support
+
+       Atelectasis       0.34      0.38      0.36       910
+      Cardiomegaly       0.37      0.60      0.46       600
+     Consolidation       0.25      0.18      0.21       864
+             Edema       0.24      0.54      0.33       435
+          Effusion       0.40      0.32      0.35      1007
+         Emphysema       0.38      0.47      0.42       471
+          Fibrosis       0.17      0.24      0.20       368
+            Hernia       0.04      0.52      0.07        31
+      Infiltration       0.25      0.17      0.20       987
+              Mass       0.46      0.27      0.34      1055
+        No_Finding       0.37      0.41      0.39      1050
+            Nodule       0.43      0.16      0.24      1115
+Pleural_Thickening       0.22      0.21      0.21       741
+         Pneumonia       0.10      0.19      0.13       285
+      Pneumothorax       0.44      0.39      0.42      1217
+
+          accuracy                           0.31     11136
+         macro avg       0.30      0.34      0.29     11136
+      weighted avg       0.34      0.31      0.31     11136
+
+======================================================================

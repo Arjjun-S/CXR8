@@ -1,0 +1,91 @@
+======================================================================
+MODEL PERFORMANCE METRICS
+======================================================================
+
+Model: Microsoft Swin Tiny (swin_tiny_patch4_window7_224)
+Timestamp: 2026-02-22
+Device: GPU (NVIDIA GeForce RTX 5050 Laptop GPU)
+
+----------------------------------------------------------------------
+HYPERPARAMETERS
+----------------------------------------------------------------------
+  Epochs:          35
+  Batch size:      16
+  Learning rate:   1e-04
+  Weight decay:    0.01
+  Optimizer:       AdamW
+  Scheduler:       CosineAnnealingLR
+  Image size:      224x224
+  Threshold:       0.3
+  Loss:            BCEWithLogitsLoss (with pos_weight)
+
+----------------------------------------------------------------------
+DATASET (FULL NIH CXR8)
+----------------------------------------------------------------------
+  Total images:    112,120
+  Train images:    89,696
+  Val images:      11,212
+  Test images:     11,212
+
+----------------------------------------------------------------------
+FINAL METRICS (Best Model - Epoch 16)
+----------------------------------------------------------------------
+  Accuracy                 : 0.6877
+  Precision                : 0.1969
+  Recall (Sensitivity)     : 0.8794
+  Specificity              : 0.6700
+  F1-Score                 : 0.3217
+  ROC-AUC                  : 0.8396
+
+  Best Validation Accuracy: 68.77%
+
+----------------------------------------------------------------------
+PER-CLASS ROC-AUC SCORES
+----------------------------------------------------------------------
+  Emphysema                : 0.9340
+  Hernia                   : 0.9214
+  Edema                    : 0.9073
+  Pneumothorax             : 0.9010
+  Cardiomegaly             : 0.9002
+  Effusion                 : 0.8765
+  Mass                     : 0.8760
+  Fibrosis                 : 0.8268
+  Consolidation            : 0.8208
+  Atelectasis              : 0.8076
+  Pleural_Thickening       : 0.7967
+  No Finding               : 0.7789
+  Pneumonia                : 0.7742
+  Nodule                   : 0.7523
+  Infiltration             : 0.7049
+
+----------------------------------------------------------------------
+CLASS DISTRIBUTION (FULL DATASET)
+----------------------------------------------------------------------
+  No Finding               : 60,361 (53.84%)
+  Infiltration             : 19,894 (17.74%)
+  Effusion                 : 13,317 (11.88%)
+  Atelectasis              : 11,559 (10.31%)
+  Nodule                   :  6,331 ( 5.65%)
+  Mass                     :  5,782 ( 5.16%)
+  Pneumothorax             :  5,302 ( 4.73%)
+  Consolidation            :  4,667 ( 4.16%)
+  Pleural_Thickening       :  3,385 ( 3.02%)
+  Cardiomegaly             :  2,776 ( 2.48%)
+  Emphysema                :  2,516 ( 2.24%)
+  Edema                    :  2,303 ( 2.05%)
+  Fibrosis                 :  1,686 ( 1.50%)
+  Pneumonia                :  1,431 ( 1.28%)
+  Hernia                   :    227 ( 0.20%)
+
+----------------------------------------------------------------------
+SAVED FILES
+----------------------------------------------------------------------
+  model.h5                 : HDF5 format weights
+  model.pth                : PyTorch weights only
+  best_model.pth           : Full checkpoint (weights + optimizer)
+  model_final.pth          : Final epoch weights
+  metrics.json             : Training metrics
+  class_distribution.png   : Class distribution chart
+  training_curves.png      : Loss/Accuracy/AUC curves
+
+======================================================================

@@ -1,0 +1,23 @@
+{
+  "model": "swin_tiny_patch4_window7_224",
+  "best_epoch": 16,
+  "best_val_accuracy": 68.73528362468784,
+  "best_val_auc": 0.8385809717714577,
+  "class_aucs": {
+    "Atelectasis": 0.8076493109262434,
+    "Cardiomegaly": 0.900195745379462,
+    "Consolidation": 0.8208021745696163,
+    "Edema": 0.9072898894651117,
+    "Effusion": 0.8765431121283409,
+    "Emphysema": 0.933971173143587,
+    "Fibrosis": 0.8268356513039371,
+    "Hernia": 0.9213801734155717,
+    "Infiltration": 0.7049441836786889,
+    "Mass": 0.8760168472374392,
+    "Nodule": 0.7522730108411353,
+    "Pleural_Thickening": 0.7967085656146004,
+    "Pneumonia": 0.7742235257286912,
+    "Pneumothorax": 0.9009987446093611,
+    "No Finding": 0.7788824685300795
+  }
+}
