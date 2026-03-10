@@ -1,0 +1,42 @@
+======================================================================
+MODEL DESCRIPTION
+======================================================================
+
+Architecture: Vision Transformer (ViT-B/16)
+
+Model Details:
+----------------------------------------
+  Base: ViT-B/16 with ImageNet pretrained weights
+  Patch size: 16x16 pixels
+  Hidden dimension: 768
+  Transformer layers: 12
+  Attention heads: 12
+  MLP dimension: 3072
+  Parameters: ~86M
+
+Training Configuration:
+----------------------------------------
+  Epochs: 30
+  Batch size: 16
+  Optimizer: AdamW
+  Learning rate: 3e-05
+  Weight decay: 0.05
+  Scheduler: Warmup + Cosine Annealing
+  Warmup epochs: 3
+  Label smoothing: 0.1
+  Gradient clipping: 1.0
+
+Data Augmentation:
+----------------------------------------
+  - Random resized crop (scale 0.85-1.0)
+  - Random horizontal flip (p=0.5)
+  - Random affine (rotation ±10°, translate 5%)
+  - Random autocontrast (p=0.2)
+  - ImageNet normalization
+
+Imbalance Handling:
+----------------------------------------
+  - Balanced class weights in loss function
+  - Patient-wise train/val split
+
+======================================================================
