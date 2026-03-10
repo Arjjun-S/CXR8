@@ -1,0 +1,43 @@
+======================================================================
+MODEL DESCRIPTION
+======================================================================
+
+Architecture: DenseNet121 (Densely Connected Network)
+
+Model Details:
+----------------------------------------
+  Base: DenseNet121 with ImageNet pretrained weights
+  Depth: 121 layers
+  Dense blocks: 4
+  Block configuration: [6, 12, 24, 16]
+  Growth rate: 32
+  Output features: 1024
+  Parameters: ~8M (very efficient)
+
+Key Features:
+----------------------------------------
+  - Dense connectivity (each layer connects to all subsequent)
+  - Feature reuse across layers
+  - Strong gradient flow through direct connections
+  - Compact model with fewer parameters
+  - Used in CheXNet (Stanford) for chest X-ray analysis
+
+Training Configuration:
+----------------------------------------
+  Epochs: 10
+  Batch size: 32
+  Optimizer: AdamW
+  Learning rate: 0.0001
+  Weight decay: 0.0001
+  Scheduler: Warmup + Cosine Annealing
+  Label smoothing: 0.1
+
+Medical Imaging Relevance:
+----------------------------------------
+  DenseNet121 is particularly suited for medical imaging because:
+  - Efficient feature propagation captures subtle abnormalities
+  - Dense connections help learn multi-scale features
+  - Used as baseline in multiple medical imaging papers
+  - CheXNet achieved radiologist-level performance with DenseNet121
+
+======================================================================

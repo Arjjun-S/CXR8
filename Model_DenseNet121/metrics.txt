@@ -1,0 +1,57 @@
+======================================================================
+MODEL PERFORMANCE METRICS
+======================================================================
+
+Model: DenseNet121
+Timestamp: 2026-02-22 00:28:18
+Device: GPU (NVIDIA GeForce RTX 5050 Laptop GPU)
+
+----------------------------------------------------------------------
+HYPERPARAMETERS
+----------------------------------------------------------------------
+  Epochs:          10
+  Batch size:      32
+  Learning rate:   0.0001
+  Weight decay:    0.0001
+  Label smoothing: 0.1
+  Image size:      224x224
+  Random seed:     42
+
+----------------------------------------------------------------------
+FINAL METRICS (Best Model)
+----------------------------------------------------------------------
+  Accuracy                 : 0.3178
+  Precision                : 0.2991
+  Recall (Sensitivity)     : 0.3496
+  Specificity              : 0.9512
+  F1-Score                 : 0.2916
+  ROC-AUC                  : 0.8072
+
+  Best Validation Accuracy: 31.78%
+
+----------------------------------------------------------------------
+CLASSIFICATION REPORT
+----------------------------------------------------------------------
+                    precision    recall  f1-score   support
+
+       Atelectasis       0.35      0.36      0.35       910
+      Cardiomegaly       0.37      0.63      0.47       600
+     Consolidation       0.27      0.18      0.21       864
+             Edema       0.26      0.46      0.33       435
+          Effusion       0.38      0.35      0.37      1007
+         Emphysema       0.35      0.52      0.42       471
+          Fibrosis       0.15      0.29      0.20       368
+            Hernia       0.05      0.68      0.10        31
+      Infiltration       0.28      0.13      0.18       987
+              Mass       0.50      0.28      0.36      1055
+        No_Finding       0.36      0.45      0.40      1050
+            Nodule       0.44      0.20      0.28      1115
+Pleural_Thickening       0.22      0.23      0.22       741
+         Pneumonia       0.09      0.14      0.11       285
+      Pneumothorax       0.42      0.35      0.38      1217
+
+          accuracy                           0.32     11136
+         macro avg       0.30      0.35      0.29     11136
+      weighted avg       0.35      0.32      0.32     11136
+
+======================================================================
